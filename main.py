@@ -1,22 +1,23 @@
 from selenium import webdriver
-import time,config,pickle
-
+from multiprocessing import Pool
+import time,config,pickle,os.path,keyboard
 from selenium.webdriver.chrome.options import Options
-import os.path
-import keyboard
+
 options = webdriver.ChromeOptions()
-url = "https://www.twitch.tv/"+config.stremer
 options.headless = config.silent
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0")
 #mute
 if config.mute_audio:
     options.add_argument("--mute-audio")
+
 path_to_driver = r"chromedriver\chromedriver.exe"
-driver = webdriver.Chrome(path_to_driver,chrome_options=options)
 def log_to_terminal(text):
     print(text)
-try:
-    driver.get(url)
+def main(url):
+ try:
+    driver = webdriver.Chrome(path_to_driver,chrome_options=options)
+    time.sleep(1)
+    driver.get("https://www.twitch.tv/"+url)
     time.sleep(2)
     #authorization
     if config.load_cookies == False:
@@ -61,8 +62,11 @@ try:
             log_to_terminal("The reward was collected")
      except:
         pass
-except Exception:
+ except Exception:
     print(Exception)
-finally:
+ finally:
     driver.close()
     driver.quit()
+if __name__ == '__main__':
+    p=Pool(len(config.stremers))
+    p.map(main,config.stremers)

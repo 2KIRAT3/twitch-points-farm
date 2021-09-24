@@ -1,6 +1,6 @@
 login = "Your Login"
 password = "Your Password"
-stremer = "NickName Streamer"
+stremers = ["Stremer1","Stremer2"]
 load_cookies = False
 silent = False
 mute_audio = False
