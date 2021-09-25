@@ -56,6 +56,8 @@ def main(url):
         #a[0].click() #is auto
         a[5].click()
     while keyboard.is_pressed(config.key_stop)==False:
+     if driver.current_url != ("https://www.twitch.tv/"+url):
+         driver.get("https://www.twitch.tv/"+url)
      try:
             driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div/div/div/div/div/section/div/div[5]/div[2]/div[2]/div[1]/div/div/div/div[2]/div/div/div/button").click()
             time.sleep(5)
@@ -68,5 +70,5 @@ def main(url):
     driver.close()
     driver.quit()
 if __name__ == '__main__':
-    p=Pool(len(config.stremers))
-    p.map(main,config.stremers)
+    p=Pool(len(config.streamers))
+    p.map(main,config.streamers)
