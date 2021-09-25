@@ -46,6 +46,13 @@ def main(url):
     except:
         pass
     time.sleep(5)
+    try:
+        driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/main/div[2]/div[3]/div/div/div[1]/div[1]/div[2]/div/div[1]/div/div/div/div[2]/div[1]/div[2]/div[3]/div/div/div[2]/button").click()
+        time.sleep(1)
+        driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/main/div[2]/div[3]/div/div/div[1]/div[1]/div[2]/div/div[1]/div/div/div/div[2]/div[1]/div[2]/div[2]/div[2]/div/div/div[1]/button").click()
+    except:
+        pass
+    time.sleep(5)
     #160p quality
     if config.auto_160p:
         driver.find_element_by_xpath("//button[@data-a-target='player-settings-button']").click()
@@ -54,7 +61,9 @@ def main(url):
         time.sleep(1)
         a = driver.find_elements_by_xpath("//div[@data-a-target='player-settings-submenu-quality-option']")
         #a[0].click() #is auto
-        a[5].click()
+        for i in a:
+            if i.text == "160p":
+                i.click()
     while keyboard.is_pressed(config.key_stop)==False:
      if driver.current_url != ("https://www.twitch.tv/"+url):
          driver.get("https://www.twitch.tv/"+url)
