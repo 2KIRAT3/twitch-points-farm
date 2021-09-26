@@ -69,29 +69,41 @@ def main(url):
         for i in a:
             if i.text == "160p":
                 i.click()
+    try:
+     chat = driver.find_element_by_xpath("//textarea[@data-a-target='chat-input']")
+     chat.click()
+     driver.find_element_by_xpath("/html/body/div[5]/div/div/div/div/div/div/div[3]/button").click()
+    except:
+        pass
+    time.sleep(1)
     while keyboard.is_pressed(config.key_stop)==False:
      try:
             driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div/div/div/div/div/section/div/div[5]/div[2]/div[2]/div[1]/div/div/div/div[2]/div/div/div/button").click()
             time.sleep(1)
             log_to_terminal("The reward was collected")
             time.sleep(1)
-     except:
-        pass
-     if config.send_mesages:
+            if config.send_mesages:
              message = config.messages[random.randrange(0,len(config.messages))]
-             driver.find_element_by_xpath("//textarea[@data-a-target='chat-input']").send_keys(message)
+             chat.send_keys(message)
              time.sleep(5)
              driver.find_element_by_xpath("//button[@data-a-target='chat-send-button']").click()
-             time.sleep(5)
-             log_to_terminal("Message send: "+message)
+             log_to_terminal("Message send: "+message) 
+     except:
+        pass
      if driver.current_url != ("https://www.twitch.tv/"+url):
-             driver.get("https://www.twitch.tv/"+url)
+             driver.get("https://www.twitch.tv/"+url)   
+             try:
+                 #button chat != message chat
+                driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/main/div[2]/div[3]/div/div/div[1]/div[1]/div[2]/div/div[2]/div[2]/div/div/ul/li[5]/a/div/div[1]/div").click()
+                 #
+             except:
+                 pass        
      else:
          continue
  except Exception:
     print(Exception)
  finally:
-    log_to_terminal("Y umer")
+    log_to_terminal("End")
     driver.close()
     driver.quit()
 if __name__ == '__main__':
