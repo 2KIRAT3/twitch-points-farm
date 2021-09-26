@@ -1,18 +1,23 @@
 from selenium import webdriver
 from multiprocessing import Pool
-import time,config,pickle,os.path,keyboard
+import time,config,pickle,os.path,keyboard,datetime,random
 from selenium.webdriver.chrome.options import Options
 
 options = webdriver.ChromeOptions()
 options.headless = config.silent
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0")
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
 #mute
 if config.mute_audio:
     options.add_argument("--mute-audio")
 
 path_to_driver = r"chromedriver\chromedriver.exe"
+def get_time():
+    return str(str(datetime.datetime.now().hour)+":"+str(datetime.datetime.now().minute)+":"+str(datetime.datetime.now().second))
+
 def log_to_terminal(text):
-    print(text)
+    print(text+" "+get_time())
+
 def main(url):
  try:
     driver = webdriver.Chrome(path_to_driver,chrome_options=options)
@@ -27,7 +32,6 @@ def main(url):
         password_input = driver.find_element_by_id("password-input")
         login_input.send_keys(config.login)
         password_input.send_keys(config.password)
-        login1_input = driver.find_element_by_xpath("/html/body/div[3]/div/div/div/div/div/div[1]/div/div/div[3]/form/div/div[3]/button").click()
         time.sleep(30)
         if os.path.isfile("cookies") == False:
             pickle.dump(driver.get_cookies(),open("cookies",'wb'))
@@ -38,7 +42,7 @@ def main(url):
                 driver.add_cookie(cookies)
     time.sleep(5)
     driver.refresh()
-    log_to_terminal("Login successful")
+    log_to_terminal("Login successful ")
     time.sleep(10)
     #18+ button
     try:
@@ -46,6 +50,7 @@ def main(url):
     except:
         pass
     time.sleep(5)
+    #subtember
     try:
         driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/main/div[2]/div[3]/div/div/div[1]/div[1]/div[2]/div/div[1]/div/div/div/div[2]/div[1]/div[2]/div[3]/div/div/div[2]/button").click()
         time.sleep(1)
@@ -65,17 +70,28 @@ def main(url):
             if i.text == "160p":
                 i.click()
     while keyboard.is_pressed(config.key_stop)==False:
-     if driver.current_url != ("https://www.twitch.tv/"+url):
-         driver.get("https://www.twitch.tv/"+url)
      try:
             driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div/div/div/div/div/section/div/div[5]/div[2]/div[2]/div[1]/div/div/div/div[2]/div/div/div/button").click()
-            time.sleep(5)
+            time.sleep(1)
             log_to_terminal("The reward was collected")
+            time.sleep(1)
      except:
         pass
+     if config.send_mesages:
+             message = config.messages[random.randrange(0,len(config.messages))]
+             driver.find_element_by_xpath("//textarea[@data-a-target='chat-input']").send_keys(message)
+             time.sleep(5)
+             driver.find_element_by_xpath("//button[@data-a-target='chat-send-button']").click()
+             time.sleep(5)
+             log_to_terminal("Message send: "+message)
+     if driver.current_url != ("https://www.twitch.tv/"+url):
+             driver.get("https://www.twitch.tv/"+url)
+     else:
+         continue
  except Exception:
     print(Exception)
  finally:
+    log_to_terminal("Y umer")
     driver.close()
     driver.quit()
 if __name__ == '__main__':
