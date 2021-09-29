@@ -43,12 +43,6 @@ def main(url):
     time.sleep(5)
     driver.refresh()
     log_to_terminal("Login successful",url)
-    time.sleep(10)
-    #18+ button
-    try:
-     driver.find_element_by_xpath("//button[@data-a-target='player-overlay-mature-accept']").click()
-    except:
-        pass
     time.sleep(5)
     #subtember
     try:
@@ -69,8 +63,18 @@ def main(url):
         for i in a:
             if i.text == "160p":
                 i.click()
+    time.sleep(10)
+    #18+ button
+    try:
+     driver.find_element_by_xpath("//button[@data-a-target='player-overlay-mature-accept']").click()
+    except:
+        pass
     time.sleep(1)
     while keyboard.is_pressed(config.key_stop)==False:
+     try:
+                driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/main/div[2]/div[3]/div/div/div[1]/div[1]/div[2]/div/div[2]/div[2]/div/div/ul/li[5]/a/div/div[1]/div").click()
+     except:
+                pass   
      try:
             driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div/div/div/div/div/section/div/div[5]/div[2]/div[2]/div[1]/div/div/div/div[2]/div/div/div/button").click()
             time.sleep(1)
