@@ -44,11 +44,8 @@ def main(url):
     driver.refresh()
     log_to_terminal("Login successful",url)
     time.sleep(5)
-    #subtember
     try:
         driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/main/div[2]/div[3]/div/div/div[1]/div[1]/div[2]/div/div[1]/div/div/div/div[2]/div[1]/div[2]/div[3]/div/div/div[2]/button").click()
-        time.sleep(1)
-        driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/main/div[2]/div[3]/div/div/div[1]/div[1]/div[2]/div/div[1]/div/div/div/div[2]/div[1]/div[2]/div[2]/div[2]/div/div/div[1]/button").click()
     except:
         pass
     time.sleep(5)
@@ -74,7 +71,7 @@ def main(url):
      try:
                 driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/main/div[2]/div[3]/div/div/div[1]/div[1]/div[2]/div/div[2]/div[2]/div/div/ul/li[5]/a/div/div[1]/div").click()
      except:
-                pass   
+                pass  
      try:
             driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/div/div/div/div/div/section/div/div[5]/div[2]/div[2]/div[1]/div/div/div/div[2]/div/div/div/button").click()
             time.sleep(1)
